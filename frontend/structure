@@ -1,0 +1,28 @@
+frontend/
+  ├── src/
+  │   ├── components/
+  │   │   ├── layout/
+  │   │   │   ├── Navbar.js
+  │   │   │   ├── Sidebar.js
+  │   │   │   └── DashboardLayout.js
+  │   │   ├── dashboard/
+  │   │   │   ├── Stats.js
+  │   │   │   └── UpcomingDrives.js
+  │   │   ├── students/
+  │   │   │   ├── StudentList.js
+  │   │   │   ├── StudentForm.js
+  │   │   │   └── BulkImport.js
+  │   │   └── vaccination/
+  │   │       ├── DriveList.js
+  │   │       └── DriveForm.js
+  │   ├── pages/
+  │   │   ├── Login.js
+  │   │   ├── Dashboard.js
+  │   │   ├── Students.js
+  │   │   └── VaccinationDrives.js
+  │   ├── services/
+  │   │   ├── api.js
+  │   │   └── auth.js
+  │   ├── context/
+  │   │   └── AuthContext.js
+  │   └── App.js 

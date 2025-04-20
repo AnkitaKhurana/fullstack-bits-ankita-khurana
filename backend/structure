@@ -1,0 +1,18 @@
+backend/
+  ├── config/
+  │   └── db.js
+  ├── controllers/
+  │   ├── authController.js
+  │   ├── studentController.js
+  │   └── vaccinationDriveController.js
+  ├── models/
+  │   ├── Student.js
+  │   ├── User.js
+  │   └── VaccinationDrive.js
+  ├── routes/
+  │   ├── auth.js
+  │   ├── students.js
+  │   └── vaccinationDrives.js
+  ├── middleware/
+  │   └── auth.js
+  └── server.js 
