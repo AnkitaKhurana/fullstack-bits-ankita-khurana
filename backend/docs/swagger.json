@@ -1,0 +1,238 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "School Vaccination Portal API",
+    "version": "1.0.0",
+    "description": "API documentation for School Vaccination Portal",
+    "contact": {
+      "name": "Ankita Khurana",
+      "url": "https://github.com/AnkitaKhurana/fullstack-bits-ankita-khurana"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "Development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "Students",
+      "description": "Student management endpoints"
+    },
+    {
+      "name": "Vaccination Drives",
+      "description": "Vaccination drive management"
+    },
+    {
+      "name": "Reports",
+      "description": "Report generation endpoints"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Student": {
+        "type": "object",
+        "required": [
+          "name",
+          "studentId",
+          "class"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Auto-generated MongoDB ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Student's full name"
+          },
+          "studentId": {
+            "type": "string",
+            "description": "Unique student identifier"
+          },
+          "class": {
+            "type": "string",
+            "description": "Student's class/grade",
+            "enum": [
+              "1",
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12"
+            ]
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "parentName": {
+            "type": "string"
+          },
+          "contactNumber": {
+            "type": "string"
+          },
+          "vaccinations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Vaccination"
+            }
+          }
+        }
+      },
+      "VaccinationDrive": {
+        "type": "object",
+        "required": [
+          "vaccineName",
+          "date",
+          "availableDoses"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "vaccineName": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "availableDoses": {
+            "type": "number",
+            "minimum": 1
+          },
+          "applicableClasses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "scheduled",
+              "completed",
+              "cancelled"
+            ]
+          }
+        }
+      },
+      "Vaccination": {
+        "type": "object",
+        "properties": {
+          "driveId": {
+            "type": "string",
+            "description": "Reference to vaccination drive"
+          },
+          "vaccineName": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/students": {
+      "get": {
+        "summary": "Get all students",
+        "tags": [
+          "Students"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Number of items per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of students"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new student",
+        "tags": [
+          "Students"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Student created successfully"
+          }
+        }
+      }
+    }
+  }
+}

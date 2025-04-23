@@ -26,6 +26,31 @@ router.post('/bulk', bulkImportStudents);
 // @route   GET /api/students/report
 // @desc    Download student vaccination report
 // @access  Private
+/**
+ * @swagger
+ * /api/students/report:
+ *   get:
+ *     summary: Download student vaccination report
+ *     tags: [Reports]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: vaccine
+ *         schema:
+ *           type: string
+ *         description: Filter by vaccine name
+ *     responses:
+ *       200:
+ *         description: CSV file containing vaccination report
+ *         content:
+ *           text/csv:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       500:
+ *         description: Server error generating report
+ */
 router.get('/report', auth, async (req, res) => {
   try {
     const { vaccine } = req.query;
@@ -87,5 +112,46 @@ router.get('/report', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error generating report' });
   }
 });
+
+/**
+ * @swagger
+ * /api/students:
+ *   get:
+ *     summary: Get all students
+ *     tags: [Students]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *         description: Number of items per page
+ *     responses:
+ *       200:
+ *         description: List of students
+ */
+router.get('/', auth, getStudents);
+
+/**
+ * @swagger
+ * /api/students:
+ *   post:
+ *     summary: Create a new student
+ *     tags: [Students]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Student'
+ *     responses:
+ *       201:
+ *         description: Student created successfully
+ */
+router.post('/', auth, addStudent);
 
 module.exports = router; 
